@@ -6,7 +6,7 @@ import { ApiService } from '../../servicios/api.service';
   selector: 'app-test',
   standalone: true,
   imports: [],
-  template: '<p>{{ testMessage }}</p>',
+  template: '<p>Mensaje test: {{ testMessage }}</p>',
   styleUrl: './test.component.css'
 })
 export class TestComponent implements OnInit {
@@ -16,12 +16,14 @@ export class TestComponent implements OnInit {
 
   ngOnInit() {
     this.apiService.getTest().subscribe(
-      (data) => {
-        this.testMessage = data; // Mostrar el mensaje recibido
-        console.log("Entro");
-      },
-      (error) => {
-        console.error('Error al llamar a /test:', error);
+      {
+        next:(data) => {
+          this.testMessage = data; // Mostrar el mensaje recibido
+          console.log("Entro");
+        },
+        error : (e) => {
+          console.error('Error al llamar a /test:', e);
+        }
       }
     );
   }
